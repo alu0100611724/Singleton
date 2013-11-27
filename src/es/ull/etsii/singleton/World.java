@@ -1,4 +1,4 @@
-package es.ull.etsii.main;
+package es.ull.etsii.singleton;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -9,35 +9,33 @@ import es.ull.etsii.estrategias.AgressiveBehaviour;
 import es.ull.etsii.estrategias.DefensiveBehaviour;
 import es.ull.etsii.estrategias.NormalBehaviour;
 
+/**
+ * Clase que utiliza el patrón singleton para controlar un enjambre de robots desde diferentes planetas.
+ * @author Mauri
+ *
+ */
 public class World {
-
+	
+	private static World instance = new World();
 	protected ArrayList<Robot> enjambre;
+	protected String robotReina;  //robot que controla el enjambre
 	
-	public World() {
+	private World() {
 		enjambre = new ArrayList<Robot>();
-		crearEstados();
+		robotReina = "Megatron";
 	}
 	
-	public void crearEstados () {
-		
-		for (int i=1; i<=10; i++) {
-		      
-			switch(numAleatorio()) {
-		      	case 0: Robot a = new Robot(new AgressiveBehaviour());
-		      			 enjambre.add(a);
-		      			 break;
-		      	case 1: Robot b = new Robot(new DefensiveBehaviour());
-	 			 		enjambre.add(b);
-	 			 		break;
-		      	case 2: Robot c = new Robot(new NormalBehaviour());
-	 			 		enjambre.add(c);
-	 			 		break;
-		      }  
-		      System.out.print("Robot "+ i + ": ");
-		      enjambre.get(i-1).move();
-		}
+	/**
+	 * Metodo de creacion de instancia unica
+	 * @return la instancia del metodo singleton
+	 */
+	public static World getWorld() {
+		return instance;
 	}
-	
+
+	/**
+	 * Cambia el estado de los robot que forman el enjambre
+	 */
 	public void play () {
 		
 		for (int i=0; i<10; i++) {
@@ -60,8 +58,27 @@ public class World {
 		}
 	}
 	
-	// Calcula un numero aleatorio entre 0 y 2 incluidos
-	public int numAleatorio () {
+	/**
+	 * Acceso al enjambre de robots
+	 * @return devuelve un array de robots
+	 */
+	public ArrayList<Robot> getEnjambre() {
+		return enjambre;
+	}
+
+	public String getRobotReina() {
+		return robotReina;
+	}
+
+	public void setRobotReina(String robotReina) {
+		this.robotReina = robotReina;
+	}
+	
+	/**
+	 *  Calcula un numero aleatorio
+	 * @return nuemro entre 0 y 2
+	 */
+	private int numAleatorio () {
 		Calendar calendario = Calendar.getInstance();
 		int semilla = calendario.hashCode();
 		Random r = new Random();
