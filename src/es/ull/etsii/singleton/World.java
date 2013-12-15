@@ -16,7 +16,7 @@ import es.ull.etsii.estrategias.NormalBehaviour;
  */
 public class World {
 	
-	private static World instance = new World();
+	private static World instance = new World();  //Con esta sentencia evitamos que se creen mas de un objeto World
 	protected ArrayList<Robot> enjambre;
 	protected String robotReina;  //robot que controla el enjambre
 	
